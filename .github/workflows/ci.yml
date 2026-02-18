@@ -15,7 +15,8 @@ jobs:
       image_tag: ${{ steps.meta.outputs.sha_tag }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set image tag
         id: meta
@@ -47,11 +48,11 @@ jobs:
           repository: arathikrishnaam/flask-app-gitops
           token: ${{ secrets.GITOPS_TOKEN }}
 
-      - name: Update image tag
+      - name: Update image tag in deployment.yaml
         run: |
           sed -i 's|image: .*/flask-app:.*|image: ${{ env.IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }}|' manifests/deployment.yaml
 
-      - name: Commit and push
+      - name: Commit and push changes
         run: |
           git config user.email "ci@github.com"
           git config user.name "GitHub Actions"
