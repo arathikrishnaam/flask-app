@@ -5,7 +5,9 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    print("Hello from GitOps v2! This is a simple Flask application.")
+    print("Hello from GitOps v2! This is a simple Flask application. ")
+    print(f"App version: {os.getenv('APP_VERSION', '1.0.0')}")
+    print(f"Environment: {os.getenv('ENVIRONMENT', 'development')}")
     return jsonify({
         "message": "Hello from GitOps version 2! This is a simple Flask application.",
         "version": os.getenv("APP_VERSION", "1.0.0")
